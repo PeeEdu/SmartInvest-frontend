@@ -12,7 +12,7 @@ export default function Header() {
                     <HeaderLink href="/simulacao" icon={<Users />} text="Sobre Nós" />
 
                     {/* Em caso de juridico, estarei usando o link abaixo apeanas para estudo. */}
-                    <HeaderLink href="https://agibank.com.br/appdoagi" icon={<Building2 />} text="Seja um Correntista Agi" correntista />
+                    <HeaderLink href="#" icon={<Building2 />} text="Seja um Correntista Agi" correntista />
                 </nav>
             </div>
         </header>
