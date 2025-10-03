@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-export default function HeaderLink({ icon, text, href, correntista }) {
+export default function HeaderLink({ icon, text, correntista, onClick }) {
     return (
         <div className={`flex 
         items-center 
@@ -18,12 +16,13 @@ export default function HeaderLink({ icon, text, href, correntista }) {
           ease-in-out
           ${correntista ? 'bg-[#11477e]' : ""} `
         }
+            onClick={onClick}
         >
             <div>
                 {icon}
             </div>
             <div>
-                <Link href={href} className="decoration-none   text-[0.875rem]">{text}</Link>
+                <div className="decoration-none   text-[0.875rem]">{text}</div>
             </div>
         </div>
     )

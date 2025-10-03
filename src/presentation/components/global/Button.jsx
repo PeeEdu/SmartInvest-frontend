@@ -1,10 +1,9 @@
-export default function Button({ text, icon, href, onClick, className }) {
+export default function Button({ text, icon, className }) {
     return (
-        <a
-            href={href ? href : "#"}
+        <div
             className={`flex 
                 items-center
-                mt-20 
+                mt-12
                 gap-2 
                 bg-primary 
                 text-[#0D3B68]  
@@ -19,11 +18,11 @@ export default function Button({ text, icon, href, onClick, className }) {
                 text-[14px]
                 font-semibold 
                 hover:bg-primary/90 
-                transition ${className ? className : ""}`}
-            onClick={onClick ? onClick : null}
+                hover:scale-x-[1.01] 
+                ${className ? className : ""}`}
         >
             {icon}
             {text}
-        </a>
+        </div>
     );
 }
