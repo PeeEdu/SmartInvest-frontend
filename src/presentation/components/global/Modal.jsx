@@ -1,7 +1,9 @@
 import typeOfInvestor from "@/mocks/typeOfInvestor";
 import TypeOfInvestor from "../perfil-investidor/TypeOfInvestor";
+import { useRedirect } from "@/presentation/hooks/useRedirect";
 
 export default function Modal({ isOpen, closeModal, title }) {
+    const {redirectTo} = useRedirect();
     if (!isOpen) return null;
 
     return (
@@ -27,7 +29,7 @@ export default function Modal({ isOpen, closeModal, title }) {
                             className="cursor-pointer mr-4 bg-[#E2E7EB] px-4 py-2 rounded-lg hover:bg-[#cfd6db] transition duration-300 ease-in-out text-[14px] font-medium">
                             Fechar
                         </button>
-                        <button 
+                        <button onClick={() => redirectTo("/simulacao")}
                             className="bg-[#0D3B68] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#0b2e54] transition duration-300 ease-in-out text-[14px] font-medium">
                             Continuar
                         </button>

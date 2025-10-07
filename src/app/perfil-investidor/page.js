@@ -5,6 +5,7 @@ import ListUl from "@/presentation/components/global/List-ul";
 import Modal from "@/presentation/components/global/Modal";
 import WhiteSquare from "@/presentation/components/global/WhiteSquare";
 import InformativeBanner from "@/presentation/components/Home/InformativeBanner";
+import { useInvestor } from "@/presentation/hooks/context/investorContext";
 import { useModal } from "@/presentation/hooks/useModal";
 import { useRedirect } from "@/presentation/hooks/useRedirect";
 import { BarChart3, BookOpen } from "lucide-react";
@@ -12,11 +13,13 @@ import { BarChart3, BookOpen } from "lucide-react";
 
 export default function PerfilInvestidor() {
     const { isOpen, openModal, closeModal } = useModal();
+    const { setSelected } = useInvestor();
     const { redirectTo } = useRedirect();
 
-    const handleClick = (url) => {
-        redirectTo(url);
-    }
+    const handleExperiente = () => {
+    setSelected("EXPERIENTE");
+    redirectTo("/simulacao");
+  };
 
 
     return (
@@ -35,7 +38,7 @@ export default function PerfilInvestidor() {
                 </WhiteSquare>
                 <WhiteSquare
                     className="w-1/2 hover:border-[#0d3b68] transition-all duration-300 ease-in-out cursor-pointer"
-                    onClick={() => handleClick("/simulacao")}
+                    onClick={() => handleExperiente("/simulacao")}
                 >
                     <InformativeBanner icon={<BarChart3 className="w-8 h-8" style={{ color: "#1DA0E2" }} />} text="Experiente" subtext={"Já invisto há um tempo e quero otimizar minha carteira com análises avançadas"} bgColor={"bg-[#E5F2F9]"} />
                     <ListUl items={[
@@ -43,7 +46,7 @@ export default function PerfilInvestidor() {
                         "Estratégias diversificadas",
                         "Comparativo de carteiras"
                     ]} coloredList={"text-[#1DA0E2]"} />
-                    <Button text="Sou experiente" className={"hover:bg-[#0d3b68] hover:text-white transition-all duration-300 ease-in-out cursor-pointer "} />
+                    <Button text="Sou experiente" className={"hover:bg-[#0d3b68] hover:text-white transition-all duration-300 ease-in-out cursor-pointer "} onClick={() => setSelected("EXPERIENTE")} />
                 </WhiteSquare>
             </div>
             

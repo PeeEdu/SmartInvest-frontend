@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useInvestor } from "@/presentation/hooks/context/investorContext";
 
 export default function TypeOfInvestor({ items }) {
-  const [selected, setSelected] = useState("");
+  const { selected, setSelected } = useInvestor();
 
   return (
     <div className="flex flex-col gap-4">
