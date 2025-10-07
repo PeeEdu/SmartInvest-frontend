@@ -11,7 +11,7 @@ export default function InvestorTip() {
 
     return (
         <div
-            className={`p-6 rounded-lg border-[2px] ${dica.bgColor} ${dica.boderColor}`}
+            className={`p-6 rounded-lg border-[2px] ${dica.bgColor} ${dica.boderColor} mb-6`}
         >
             <h3 className="text-[#0D3B68] font-semibold text-[14px]">
                 💡 {dica.tip}
