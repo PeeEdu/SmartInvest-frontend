@@ -7,15 +7,6 @@ export default function SimulationForm({ items }) {
     const [valorInvestimento, setValorInvestimento] = useState("");
     const rendaFixa = proodutosFixos;
 
-    // Se for EXPERIENTE, mostra mensagem e não renderiza o form
-    if (selected === "EXPERIENTE") {
-        return (
-            <div className="text-center text-[#0d3b68ea] font-semibold mt-6">
-                Em breve mais opções para você!
-            </div>
-        );
-    }
-
     const formatCurrency = (value) => {
         if (!value) return "";
 
@@ -136,31 +127,15 @@ export default function SimulationForm({ items }) {
                     </div>
                 )}
                 <div className="flex justify-center">
-                    <button
-                        type="submit"
-                        className="w-full 
-                        max-w-[365px] 
-                        bg-primary 
-                        text-[#0D3B68] 
-                        border-[1px] 
-                        border-[#e5e7eb] 
-                        px-6 
-                        py-3 
-                        rounded-xl 
-                        text-[14px] 
-                        font-semibold 
-                        hover:bg-[#0b2e54] 
-                        hover:text-white 
-                        transition 
-                        duration-300 
-                        ease-in-out 
-                        cursor-pointer
-                        mt-6
-                        "
-                        
-                    >
-                        {selected === "RENDA_FIXA" ? "Simular Investimento" : "Visualizar Histórico de Investimentos"}
-                    </button>
+                    {selected && (
+                        <button
+                            type="submit"
+                            className="w-full max-w-[365px] bg-primary text-[#0D3B68] border-[1px] border-[#e5e7eb] px-6 py-3 rounded-xl text-[14px] font-semibold hover:bg-[#0b2e54] hover:text-white transition duration-300 ease-in-out cursor-pointer mt-6"
+                        >
+                            {selected === "RENDA_FIXA" && "Simular Investimento"}
+                            {selected === "RENDA_VARIAVEL" && "Visualizar Histórico de Investimentos"}
+                        </button>
+                    )}
                 </div>
             </form>
         </div>
