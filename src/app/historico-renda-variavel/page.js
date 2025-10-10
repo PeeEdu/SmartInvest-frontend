@@ -37,9 +37,11 @@ export default function HistoricoRendaVariavel() {
         async function fetchHistorico() {
             try {
                 const response = await getHistoricoRendaVariavel();
+                console.log("Backend response:", response);
                 if (!response || response.length === 0) return;
 
                 const formattedData = transformData(response);
+                console.log("Dados formatados:", formattedData);
                 setDadosGrafico(formattedData);
             } catch (error) {
                 console.error("Erro ao buscar histórico:", error);
