@@ -1,10 +1,22 @@
+"use client";
+
+
+import { useRedirect } from "@/presentation/hooks/useRedirect";
+import { useInvestor } from "@/presentation/hooks/context/investorContext";
+import { useState } from "react";
 import typeOfInvestor from "@/mocks/typeOfInvestor";
 import TypeOfInvestor from "../perfil-investidor/TypeOfInvestor";
-import { useRedirect } from "@/presentation/hooks/useRedirect";
 
 export default function Modal({ isOpen, closeModal, title }) {
+    const { setSelected } = useInvestor();
+    const [type, setType] = useState(typeOfInvestor);
     const {redirectTo} = useRedirect();
+    
     if (!isOpen) return null;
+
+    const handleChangeInvestor = (value) => {
+        setSelected(value);
+    }
 
     return (
         <div
@@ -21,7 +33,7 @@ export default function Modal({ isOpen, closeModal, title }) {
                         <p className=" text-[14px] text-[#0d3b68] font-light mt-2">Escolha a opção que melhor representa sua estratégia de investimento</p>
                     </div>
                     <div className="px-8 mt-4">
-                        <TypeOfInvestor items={typeOfInvestor} />
+                        <TypeOfInvestor items={type} handleChangeInvestor={handleChangeInvestor}/>
                     </div>
                     <div className="flex justify-end items-center p-4 md:p-5 rounded-b mt-2">
                         <button

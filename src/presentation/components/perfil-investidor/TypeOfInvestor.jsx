@@ -1,7 +1,16 @@
 import { useInvestor } from "@/presentation/hooks/context/investorContext";
+import { useState } from "react";
 
-export default function TypeOfInvestor({ items }) {
-  const { selected, setSelected } = useInvestor();
+export default function TypeOfInvestor({ items, handleChangeInvestor }) {
+
+  const [selected, setSelected] = useState();
+
+  const handleSelect = (value) => {
+    setSelected(value);
+    handleChangeInvestor(value);
+  }
+
+  console.log(items);  
 
   return (
     <div className="flex flex-col gap-4">
@@ -18,7 +27,7 @@ export default function TypeOfInvestor({ items }) {
               name="typeOfInvestor"
               value={item.value}
               checked={selected === item.value}
-              onChange={() => setSelected(item.value)}
+              onChange={() => handleSelect(item.value)}
               className="w-3 h-3 accent-[#0d3b68]"
             />
 

@@ -6,7 +6,6 @@ import SimulationForm from "@/presentation/components/simulacao/SimulationForm";
 
 
 const Simulacao = () => {
-
   return (
     <div className="max-w-[700px] mx-auto px-4 py-6">
       <p className="font-bold text-center text-4xl mb-4">Configure sua simulação</p>

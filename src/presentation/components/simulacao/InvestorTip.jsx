@@ -5,7 +5,7 @@ import dicas from "@/mocks/tipToInvestor";
 import { useInvestor } from "@/presentation/hooks/context/investorContext";
 
 export default function InvestorTip() {
-    const { selected } = useInvestor();
+    const { selected, hydrated } = useInvestor();
     const dica = dicas.find((d) => d.type === selected);
     if (!dica) return null;
 

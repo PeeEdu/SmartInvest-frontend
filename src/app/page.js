@@ -15,6 +15,10 @@ export default function Home() {
       <HomeBanner text="Simule seus investimentos" />
       <HomeDescription text="Descubra o potencial dos seus investimentos com simulações precisas e personalizadas para seu perfil" />
       <HomeBigButton text="Começar Simulação Gratuita" icon={<Target className="w-5 h-5 mr-2" />} href="/perfil-investidor" />
+      {/* TODO: Create a new button to search for existing simulations by protocol */}
+      <p className="text-center text-[14px] text-[#5F799F] max-w-2xl mx-auto mt-4">
+        nao esquece^^
+      </p>
       <WhiteSquare className="flex items-center mt-10 max-w-[950px] mx-auto mb-10">
         <InformativeBanner icon={<TrendingUp className="w-8 h-8" style={{ color: "#0D3B68" }} />} text="Simulações Precisas" subtext={"Algoritmos avançados para projeções realistas"} bgColor={"bg-[#E3E8EC]"}/>
         <InformativeBanner icon={ <Shield className="w-8 h-8" style={{ color: "#16A249" }}/>} text="100% Seguro" subtext={"Seus dados são protegidos e nunca compartilhados"} bgColor={"bg-[#E4F2E9]"}/>

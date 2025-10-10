@@ -13,13 +13,15 @@ import { BarChart3, BookOpen } from "lucide-react";
 
 export default function PerfilInvestidor() {
     const { isOpen, openModal, closeModal } = useModal();
-    const { setSelected } = useInvestor();
+    const { setSelected, hydrated } = useInvestor();
     const { redirectTo } = useRedirect();
 
     const handleExperiente = () => {
-    setSelected("EXPERIENTE");
-    redirectTo("/simulacao");
-  };
+        setSelected("EXPERIENTE");
+        redirectTo("/simulacao");
+    };
+
+
 
 
     return (
@@ -49,7 +51,7 @@ export default function PerfilInvestidor() {
                     <Button text="Sou experiente" className={"hover:bg-[#0d3b68] hover:text-white transition-all duration-300 ease-in-out cursor-pointer "} onClick={() => setSelected("EXPERIENTE")} />
                 </WhiteSquare>
             </div>
-            
+
             {isOpen &&
                 <>
                     <Modal isOpen={isOpen} closeModal={closeModal} title="Qual é o seu perfil de investidor?" />

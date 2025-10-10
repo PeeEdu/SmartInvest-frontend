@@ -4,24 +4,22 @@ import { createContext, useContext, useEffect, useState } from "react";
 const InvestorContext = createContext();
 
 export function InvestorProvider({ children }) {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("");  
+  const [hydrated, setHydrated] = useState(false);
 
-  // 🔹 Carrega do localStorage (só no cliente)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("selectedInvestor");
-      if (saved) {
-        setSelected(saved);
-      }
-    }
+    const saved = localStorage.getItem("selectedInvestor");
+    if (saved) setSelected(saved);
+    setHydrated(true);
   }, []);
 
-  // 🔹 Salva sempre que o valor mudar
   useEffect(() => {
-    if (typeof window !== "undefined" && selected) {
+    if (selected) {
       localStorage.setItem("selectedInvestor", selected);
     }
   }, [selected]);
+
+  if (!hydrated) return null;
 
   return (
     <InvestorContext.Provider value={{ selected, setSelected }}>
@@ -30,6 +28,7 @@ export function InvestorProvider({ children }) {
   );
 }
 
+// Hook customizado
 export function useInvestor() {
   return useContext(InvestorContext);
 }
