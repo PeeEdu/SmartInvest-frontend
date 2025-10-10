@@ -12,19 +12,12 @@ import Link from "next/link";
 function transformData(data) {
     if (!data || data.length === 0) return [];
 
-    // Encontra a data mínima real do backend
-    const minDate = new Date(Math.min(...data.map(item => new Date(item.dataAtualizacao).getTime())));
-
     const groupedData = {};
 
     data.forEach(item => {
         const date = new Date(item.dataAtualizacao);
-
-        // Ignora qualquer registro anterior ao mínimo
-        if (date < minDate) return;
-
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0"); // 01-12
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // "01" a "12"
         const key = `${year}-${month}`;
 
         if (!groupedData[key]) groupedData[key] = {};
@@ -35,8 +28,8 @@ function transformData(data) {
         }
     });
 
-    const sortedKeys = Object.keys(groupedData)
-        .sort((a, b) => new Date(a + "-01") - new Date(b + "-01")); // garante ordenação correta
+    // Ordena os meses corretamente
+    const sortedKeys = Object.keys(groupedData).sort((a, b) => new Date(a + "-01") - new Date(b + "-01"));
 
     return sortedKeys.map(key => {
         const entry = { week: key };
@@ -46,6 +39,7 @@ function transformData(data) {
         return entry;
     });
 }
+
 
 
 
