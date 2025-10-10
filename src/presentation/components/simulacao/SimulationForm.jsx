@@ -48,9 +48,14 @@ export default function SimulationForm({ items }) {
         }
 
         if (selected === "RENDA_FIXA") {
+            setLoading(true);
             const response = await postForm(formData).then((res) => {
+                setLoading(false);
                 redirectTo(`/simulacao/${res.data.protocolo}`);
-            }).catch(() => null);
+            }).catch(() => {
+                setLoading(false);
+                return null;
+            });
             console.log("Resposta do servidor:", response);
         } else {
             redirectTo(`/historico-renda-variavel`);
