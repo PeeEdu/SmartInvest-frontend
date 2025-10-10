@@ -11,24 +11,34 @@ import Link from "next/link";
 
 function transformData(data) {
     const groupedData = {};
+
+    // Agrupa por mês e guarda o último preço de cada ação no mês
     data.forEach(item => {
         const [year, month] = item.dataAtualizacao.split(" ")[0].split("-");
         const key = `${year}-${month}`;
-        if (!groupedData[key]) {
-            groupedData[key] = {};
+        if (!groupedData[key]) groupedData[key] = {};
+
+        // Mantém apenas o último do mês
+        if (!groupedData[key][item.nomeAcao] || new Date(item.dataAtualizacao) > new Date(groupedData[key][item.nomeAcao].dataAtualizacao)) {
+            groupedData[key][item.nomeAcao] = { preco: item.preco, dataAtualizacao: item.dataAtualizacao };
         }
-        groupedData[key][item.nomeAcao] = item.preco;
     });
 
-    // Converte o objeto agrupado em um array ordenado por data
+    // Ordena os meses
     const sortedKeys = Object.keys(groupedData).sort((a, b) => new Date(a) - new Date(b));
-    const formattedData = sortedKeys.map(key => ({
-        week: key,
-        ...groupedData[key]
-    }));
+
+    // Formata o array pro gráfico
+    const formattedData = sortedKeys.map(key => {
+        const entry = { week: key };
+        Object.keys(groupedData[key]).forEach(acao => {
+            entry[acao] = groupedData[key][acao].preco;
+        });
+        return entry;
+    });
 
     return formattedData;
 }
+
 
 export default function HistoricoRendaVariavel() {
     const [dadosGrafico, setDadosGrafico] = useState([]);
