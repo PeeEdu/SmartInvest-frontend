@@ -18,18 +18,19 @@ function transformData(data) {
         const date = new Date(item.dataAtualizacao);
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, "0"); // "01" a "12"
+
+        if (year < 2025) return; // ignora qualquer coisa antes de 2025
+
         const key = `${year}-${month}`;
 
         if (!groupedData[key]) groupedData[key] = {};
 
-        // Mantém apenas o último valor do mês
         if (!groupedData[key][item.nomeAcao] || date > new Date(groupedData[key][item.nomeAcao].dataAtualizacao)) {
             groupedData[key][item.nomeAcao] = { preco: item.preco, dataAtualizacao: item.dataAtualizacao };
         }
     });
 
-    // Ordena os meses corretamente
-    const sortedKeys = Object.keys(groupedData).sort((a, b) => new Date(a + "-01") - new Date(b + "-01"));
+    const sortedKeys = Object.keys(groupedData).sort((a, b) => a.localeCompare(b));
 
     return sortedKeys.map(key => {
         const entry = { week: key };
@@ -39,6 +40,7 @@ function transformData(data) {
         return entry;
     });
 }
+
 
 
 
