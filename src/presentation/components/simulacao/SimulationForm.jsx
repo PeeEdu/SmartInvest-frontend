@@ -6,28 +6,31 @@ import { postForm } from "@/service/postForm";
 import formatCurrency from "@/utils/formatString";
 import { useEffect, useState } from "react";
 import Select from "react-select";
+import '@/style/loader.css'
 
 export default function SimulationForm({ items }) {
     const [selected, setSelected] = useState("");
     const { redirectTo } = useRedirect();
+    const [loading, setLoading] = useState(true); // 🔹 loader
+    const [selectOptions, setSelectOptions] = useState([]);
     const [formData, setFormData] = useState({
-        tipoUsuario: localStorage.getItem("selectedInvestor") != "EXPERIENTE" ? "INICIANTE" : "EXPERIENTE",
+        tipoUsuario: localStorage.getItem("selectedInvestor") !== "EXPERIENTE" ? "INICIANTE" : "EXPERIENTE",
         tipoPerfil: localStorage.getItem("selectedInvestor"),
         tipoInvestimento: "",
         idRendaFixa: "",
         valorInvestimento: "",
         periodo: ""
     });
-    const [selectOptions, setSelectOptions] = useState([]);
 
-    // 🔹 Fetch produtos de renda fixa
     useEffect(() => {
         async function fetchData() {
             try {
-                const rendaFixa = await getRendasFixas().then((res) => res.data).catch(() => []);
+                const rendaFixa = await getRendasFixas().then(res => res.data).catch(() => []);
                 setSelectOptions(rendaFixa);
             } catch (err) {
                 console.error("Erro ao buscar rendas fixas:", err);
+            } finally {
+                setLoading(false);
             }
         }
         fetchData();
@@ -43,15 +46,15 @@ export default function SimulationForm({ items }) {
             alert("Selecione um produto de investimento");
             return;
         }
-        console.log("Dados do formulário:", formData);
-        
-        if (selected === "RENDA_FIXA") {
-            const response = await postForm(formData);
-            console.log("Resposta do servidor:", response);
-        }
-        
 
-        selected === "RENDA_FIXA" ? redirectTo(`/simulacao/${response.data.protocolo}`) : redirectTo(`/historico-renda-variavel`);
+        if (selected === "RENDA_FIXA") {
+            const response = await postForm(formData).then((res) => {
+                redirectTo(`/simulacao/${res.data.protocolo}`);
+            }).catch(() => null);
+            console.log("Resposta do servidor:", response);
+        } else {
+            redirectTo(`/historico-renda-variavel`);
+        }
     };
 
     const handleValorChange = (e) => {
@@ -65,33 +68,35 @@ export default function SimulationForm({ items }) {
         setFormData({ ...formData, periodo: e.target.value });
     };
 
-    // 🔹 Mapeia options para React Select
-    const options = selectOptions.map((option) => ({
+    const options = selectOptions.map(option => ({
         value: option.id,
         label: option.nome,
         taxaMensal: option.taxaMensal
     }));
 
-    // 🔹 Option selecionada baseado no idRendaFixa
     const selectedOption = options.find(opt => opt.value === formData.idRendaFixa) || null;
+
+    if (loading) {
+        return (
+            <div className="loader-wrapper">
+                <div className="loader"></div>
+            </div>
+        );
+    }
 
     return (
         <div>
             {/* Tipo de investimento */}
             <div className="flex gap-4">
-                {items
-                    .filter(item => item.value === "RENDA_FIXA" || item.value === "RENDA_VARIAVEL")
-                    .map((item) => (
-                        <label
-                            key={item.value}
-                            className={`flex w-1/2 rounded-lg p-4 cursor-pointer transition-all duration-200 border-2
-                ${selected === item.value
-                                    ? item.value === "RENDA_FIXA"
-                                        ? "bg-[#16a2491a] border-[#19A44C]"
-                                        : "bg-[#0d3b680d] border-[#0d3b68]"
-                                    : "bg-white border border-gray-200 hover:bg-gray-50"
-                                }`}
-                        >
+                {items.filter(item => item.value === "RENDA_FIXA" || item.value === "RENDA_VARIAVEL")
+                    .map(item => (
+                        <label key={item.value} className={`flex w-1/2 rounded-lg p-4 cursor-pointer transition-all duration-200 border-2
+                            ${selected === item.value
+                                ? item.value === "RENDA_FIXA"
+                                    ? "bg-[#16a2491a] border-[#19A44C]"
+                                    : "bg-[#0d3b680d] border-[#0d3b68]"
+                                : "bg-white border border-gray-200 hover:bg-gray-50"
+                            }`}>
                             <div className="flex items-center gap-3">
                                 <input
                                     type="radio"
@@ -119,9 +124,7 @@ export default function SimulationForm({ items }) {
                     <div>
                         {/* Select produto */}
                         <div className="w-full mb-6 gap-2 flex flex-col">
-                            <label htmlFor="produto" className="block text-sm font-bold text-[#0d3b68]">
-                                Produto de Investimento
-                            </label>
+                            <label htmlFor="produto" className="block text-sm font-bold text-[#0d3b68]">Produto de Investimento</label>
                             <Select
                                 id="produto"
                                 options={options}
@@ -137,32 +140,18 @@ export default function SimulationForm({ items }) {
                                     ) : option.label
                                 }
                                 styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        borderRadius: 12,
-                                        borderColor: "#0d3b68",
-                                        minHeight: "48px"
-                                    }),
-                                    option: (base, state) => ({
-                                        ...base,
-                                        backgroundColor: state.isSelected ? "#0d3b68" : "#fff",
-                                        color: state.isSelected ? "#fff" : "#0d3b68",
-                                        padding: "12px 16px",
-                                        fontSize: "14px"
-                                    })
+                                    control: (base) => ({ ...base, borderRadius: 12, borderColor: "#0d3b68", minHeight: "48px" }),
+                                    option: (base, state) => ({ ...base, backgroundColor: state.isSelected ? "#0d3b68" : "#fff", color: state.isSelected ? "#fff" : "#0d3b68", padding: "12px 16px", fontSize: "14px" })
                                 }}
                             />
                         </div>
 
                         {/* Valor a investir */}
                         <div className="mb-6 gap-2 flex flex-col">
-                            <label htmlFor="valorInvestimento" className="block text-sm font-bold text-[#0d3b68]">
-                                Valor a investir (R$)
-                            </label>
+                            <label htmlFor="valorInvestimento" className="block text-sm font-bold text-[#0d3b68]">Valor a investir (R$)</label>
                             <input
                                 type="text"
                                 id="valorInvestimento"
-                                name="valorInvestimento"
                                 value={formData.valorInvestimento}
                                 onChange={handleValorChange}
                                 placeholder="R$ 0,00"
@@ -172,13 +161,10 @@ export default function SimulationForm({ items }) {
 
                         {/* Período */}
                         <div className="mb-6 gap-2 flex flex-col">
-                            <label htmlFor="periodo" className="block text-sm font-bold text-[#0d3b68]">
-                                Período (meses)
-                            </label>
+                            <label htmlFor="periodo" className="block text-sm font-bold text-[#0d3b68]">Período (meses)</label>
                             <input
                                 type="number"
                                 id="periodo"
-                                name="periodo"
                                 value={formData.periodo}
                                 onChange={handlePeriodoChange}
                                 placeholder="Digite o período"
@@ -195,8 +181,7 @@ export default function SimulationForm({ items }) {
                             type="submit"
                             className="w-full max-w-[365px] bg-primary text-[#0D3B68] border-[1px] border-[#e5e7eb] px-6 py-3 rounded-xl text-[14px] font-semibold hover:bg-[#0b2e54] hover:text-white transition duration-300 ease-in-out cursor-pointer mt-6"
                         >
-                            {selected === "RENDA_FIXA" && "Simular Investimento"}
-                            {selected === "RENDA_VARIAVEL" && "Visualizar Histórico de Investimentos"}
+                            {selected === "RENDA_FIXA" ? "Simular Investimento" : "Visualizar Histórico de Investimentos"}
                         </button>
                     )}
                 </div>
