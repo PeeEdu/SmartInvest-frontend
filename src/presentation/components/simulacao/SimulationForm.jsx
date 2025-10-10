@@ -27,6 +27,7 @@ export default function SimulationForm({ items }) {
             try {
                 const rendaFixa = await getRendasFixas().then(res => res.data).catch(() => []);
                 setSelectOptions(rendaFixa);
+                
             } catch (err) {
                 console.error("Erro ao buscar rendas fixas:", err);
             } finally {
@@ -38,6 +39,8 @@ export default function SimulationForm({ items }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+
         if (!formData.tipoInvestimento) {
             alert("Selecione o tipo de investimento");
             return;
@@ -47,16 +50,16 @@ export default function SimulationForm({ items }) {
             return;
         }
 
-         setLoading(true);
+        setLoading(true);
+
 
         if (selected === "RENDA_FIXA") {
-           
             const response = await postForm(formData).then((res) => {
-                setLoading(false);
                 redirectTo(`/simulacao/${res.data.protocolo}`);
             }).catch(() => {
-                setLoading(false);
                 return null;
+            }).finally(() => {
+                setLoading(false);
             });
             console.log("Resposta do servidor:", response);
         } else {
