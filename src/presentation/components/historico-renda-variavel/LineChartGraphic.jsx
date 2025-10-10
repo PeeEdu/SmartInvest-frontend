@@ -16,23 +16,19 @@ function formatDate(dateString) {
         "jul", "ago", "set", "out", "nov", "dez"
     ];
 
-    const [year, month] = dateString.split("-"); // Extrai ano e mês
-    return `${months[parseInt(month, 10) - 1]}/${year}`; // Formata como "mes/ano"
+    const [year, month] = dateString.split("-");
+    return `${months[parseInt(month, 10) - 1]}/${year}`;
 }
 
 // Função para calcular a variação percentual
 function calculatePercentageChange(currentValue, previousValue) {
-    if (previousValue == null || currentValue == null) {
-        return 0; // primeiro ponto = 0%
-    }
-    if (previousValue === 0) {
-        return 0; // evita divisão por zero
-    }
+    if (previousValue == null || currentValue == null) return 0;
+    if (previousValue === 0) return 0;
     return ((currentValue - previousValue) / previousValue) * 100;
 }
 
 export default function LineChartGraphic({ data }) {
-    // Adiciona uma propriedade de variação percentual para cada ação
+    // Adiciona variação percentual para cada ação
     const enrichedData = data.map((item, index) => {
         const newItem = { ...item };
         Object.keys(item).forEach(key => {
@@ -45,18 +41,24 @@ export default function LineChartGraphic({ data }) {
         return newItem;
     });
 
+    // Pega todas as ações existentes em todos os meses
+    const allActions = Array.from(
+        new Set(
+            data.flatMap(item => Object.keys(item).filter(key => key !== "week"))
+        )
+    );
+
     return (
         <ResponsiveContainer width="100%" height={450}>
             <LineChart data={enrichedData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week" tickFormatter={(week) => formatDate(week)} /> {/* Exibe o eixo X com o formato "mes/ano" */}
+                <XAxis dataKey="week" tickFormatter={(week) => formatDate(week)} />
                 <YAxis label={{ value: 'Preço', angle: -90, position: 'insideLeft' }} />
                 <Tooltip
                     contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #d3d3d3' }}
                     content={({ payload }) => {
                         if (!payload || payload.length === 0) return null;
 
-                        // Ordena do maior pro menor
                         const sortedPayload = [...payload].sort((a, b) => b.value - a.value);
 
                         return (
@@ -67,7 +69,7 @@ export default function LineChartGraphic({ data }) {
                                     const sign = percentageChange > 0 ? "+" : "";
                                     return (
                                         <div key={item.name} style={{ color: item.color, marginBottom: 5 }}>
-                                            {item.name}: R$ {item.value.toFixed(2)} ({sign}{percentageChange.toFixed(2)}%)
+                                            {item.name}: R$ {item.value?.toFixed(2)} ({sign}{percentageChange.toFixed(2)}%)
                                         </div>
                                     );
                                 })}
@@ -81,30 +83,28 @@ export default function LineChartGraphic({ data }) {
                     formatter={(value) => <span style={{ marginRight: 20 }}>{value}</span>}
                 />
 
-                {Object.keys(enrichedData[0])
-                    .filter(key => key !== "week" && !key.includes("Percentage"))
-                    .map((acao, index) => {
-                        const colors = [
-                            '#E63946',
-                            '#28e00f',
-                            '#f9d33b',
-                            '#000000',
-                            '#f93bc4',
-                            '#266BFF',
-                        ];
+                {allActions.map((acao, index) => {
+                    const colors = [
+                        '#E63946',
+                        '#28e00f',
+                        '#f9d33b',
+                        '#000000',
+                        '#f93bc4',
+                        '#266BFF',
+                    ];
 
-                        return (
-                            <Line
-                                key={acao}
-                                type="monotone"
-                                dataKey={acao}
-                                name={acao}
-                                stroke={colors[index % colors.length]}
-                                strokeWidth={2}
-                                dot={{ r: 3 }}
-                            />
-                        );
-                    })}
+                    return (
+                        <Line
+                            key={acao}
+                            type="monotone"
+                            dataKey={acao}
+                            name={acao}
+                            stroke={colors[index % colors.length]}
+                            strokeWidth={2}
+                            dot={{ r: 3 }}
+                        />
+                    );
+                })}
             </LineChart>
         </ResponsiveContainer>
     );
