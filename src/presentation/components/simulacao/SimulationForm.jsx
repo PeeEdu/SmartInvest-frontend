@@ -15,7 +15,7 @@ export default function SimulationForm({ items }) {
     const [selectOptions, setSelectOptions] = useState([]);
     const [formData, setFormData] = useState({
         tipoUsuario: localStorage.getItem("selectedInvestor") !== "EXPERIENTE" ? "INICIANTE" : "EXPERIENTE",
-        tipoPerfil: localStorage.getItem("selectedInvestor"),
+        tipoPerfil: localStorage.getItem("selectedInvestor") === "AGRESSIVO" ? "ARROJADO" : localStorage.getItem("selectedInvestor"),
         tipoInvestimento: "",
         idRendaFixa: "",
         valorInvestimento: "",
@@ -27,7 +27,6 @@ export default function SimulationForm({ items }) {
             try {
                 const rendaFixa = await getRendasFixas().then(res => res.data).catch(() => []);
                 setSelectOptions(rendaFixa);
-                
             } catch (err) {
                 console.error("Erro ao buscar rendas fixas:", err);
             } finally {
