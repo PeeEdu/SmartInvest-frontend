@@ -11,7 +11,7 @@ import '@/style/loader.css'
 export default function SimulationForm({ items }) {
     const [selected, setSelected] = useState("");
     const { redirectTo } = useRedirect();
-    const [loading, setLoading] = useState(true); // 🔹 loader inicial
+    const [loading, setLoading] = useState(true); // 🔹 loader
     const [selectOptions, setSelectOptions] = useState([]);
     const [formData, setFormData] = useState({
         tipoUsuario: localStorage.getItem("selectedInvestor") !== "EXPERIENTE" ? "INICIANTE" : "EXPERIENTE",
@@ -22,7 +22,6 @@ export default function SimulationForm({ items }) {
         periodo: ""
     });
 
-    // 🔹 Busca de produtos de renda fixa
     useEffect(() => {
         async function fetchData() {
             try {
@@ -39,29 +38,29 @@ export default function SimulationForm({ items }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!formData.tipoInvestimento) {
             alert("Selecione o tipo de investimento");
             return;
         }
-
         if (formData.tipoInvestimento === "RENDA_FIXA" && !formData.idRendaFixa) {
             alert("Selecione um produto de investimento");
             return;
         }
 
-        // 🔹 Loader ativado enquanto espera resposta do backend
-        setLoading(true);
-        try {
-            if (selected === "RENDA_FIXA") {
-                const response = await postForm(formData);
-                redirectTo(`/simulacao/${response.data.protocolo}`);
-            } else {
-                redirectTo(`/historico-renda-variavel`);
-            }
-        } catch (err) {
-            console.error("Erro ao enviar formulário:", err);
-            setLoading(false);
+         setLoading(true);
+
+        if (selected === "RENDA_FIXA") {
+           
+            const response = await postForm(formData).then((res) => {
+                setLoading(false);
+                redirectTo(`/simulacao/${res.data.protocolo}`);
+            }).catch(() => {
+                setLoading(false);
+                return null;
+            });
+            console.log("Resposta do servidor:", response);
+        } else {
+            redirectTo(`/historico-renda-variavel`);
         }
     };
 
