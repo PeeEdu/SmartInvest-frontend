@@ -3,7 +3,6 @@ import axios from "axios";
 
 const API_URL = "https://smart-invest-api-latest.onrender.com";
 
-
 export async function getRendasFixas() {
     try {
         console.log("Buscando produtos de renda fixa...");

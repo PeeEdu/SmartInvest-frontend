@@ -67,6 +67,7 @@ export default function SimulationForm({ items }) {
     const handlePeriodoChange = (e) => {
         setFormData({ ...formData, periodo: e.target.value });
     };
+    
 
     const options = selectOptions.map(option => ({
         value: option.id,
