@@ -25,7 +25,7 @@ export default function SimulationForm({ items }) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const rendaFixa = await getRendasFixas().then(res => res.data).catch(() => []);
+                const rendaFixa = await getRendasFixas().catch(() => []);
                 setSelectOptions(rendaFixa);
             } catch (err) {
                 console.error("Erro ao buscar rendas fixas:", err);
@@ -67,13 +67,15 @@ export default function SimulationForm({ items }) {
     const handlePeriodoChange = (e) => {
         setFormData({ ...formData, periodo: e.target.value });
     };
-    
 
-    const options = selectOptions.map(option => ({
-        value: option.id,
-        label: option.nome,
-        taxaMensal: option.taxaMensal
-    }));
+
+    const options = Array.isArray(selectOptions)
+        ? selectOptions.map(option => ({
+            value: option.id,
+            label: option.nome,
+            taxaMensal: option.taxaMensal
+        }))
+        : [];
 
     const selectedOption = options.find(opt => opt.value === formData.idRendaFixa) || null;
 
