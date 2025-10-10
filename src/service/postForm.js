@@ -8,7 +8,7 @@ export async function postForm(form) {
 
     try {
         const response = await axios.post(
-            "http://localhost:8080/simulacao",
+            "https://smart-invest-api-latest.onrender.com/simulacao",
             formattedForm 
         );
 

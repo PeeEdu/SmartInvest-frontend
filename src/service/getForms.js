@@ -1,7 +1,7 @@
 // src/services/apiForms.js
 import axios from "axios";
 
-const API_URL = "http://localhost:8080";
+const API_URL = "https://smart-invest-api-latest.onrender.com";
 
 
 export async function getRendasFixas() {
