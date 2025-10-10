@@ -11,22 +11,24 @@ import Link from "next/link";
 
 function transformData(data) {
     const groupedData = {};
-
     data.forEach(item => {
-        const key = item.dataAtualizacao.split(" ")[0]; // agrupa por dia, se quiser por mês muda aqui
-        if (!groupedData[key]) groupedData[key] = {};
-        groupedData[key][item.nomeAcao] = item.preco; // adiciona todas as ações
+        const [year, month] = item.dataAtualizacao.split(" ")[0].split("-");
+        const key = `${year}-${month}`;
+        if (!groupedData[key]) {
+            groupedData[key] = {};
+        }
+        groupedData[key][item.nomeAcao] = item.preco;
     });
 
+    // Converte o objeto agrupado em um array ordenado por data
     const sortedKeys = Object.keys(groupedData).sort((a, b) => new Date(a) - new Date(b));
-
-    return sortedKeys.map(key => ({
+    const formattedData = sortedKeys.map(key => ({
         week: key,
-        ...groupedData[key] // todas as ações desse dia/mês
+        ...groupedData[key]
     }));
+
+    return formattedData;
 }
-
-
 
 export default function HistoricoRendaVariavel() {
     const [dadosGrafico, setDadosGrafico] = useState([]);
@@ -35,11 +37,9 @@ export default function HistoricoRendaVariavel() {
         async function fetchHistorico() {
             try {
                 const response = await getHistoricoRendaVariavel();
-                console.log("Backend response:", response);
                 if (!response || response.length === 0) return;
 
                 const formattedData = transformData(response);
-                console.log("Dados formatados:", formattedData);
                 setDadosGrafico(formattedData);
             } catch (error) {
                 console.error("Erro ao buscar histórico:", error);
