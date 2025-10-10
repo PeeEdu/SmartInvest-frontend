@@ -13,28 +13,19 @@ function transformData(data) {
     const groupedData = {};
 
     data.forEach(item => {
-        const [year, month] = item.dataAtualizacao.split(" ")[0].split("-");
-        const key = `${year}-${month}`;
+        const key = item.dataAtualizacao.split(" ")[0]; // agrupa por dia, se quiser por mês muda aqui
         if (!groupedData[key]) groupedData[key] = {};
-
-        // Se ainda não existe ou se esta data é mais recente, substitui
-        if (!groupedData[key][item.nomeAcao] || new Date(item.dataAtualizacao) > new Date(groupedData[key][item.nomeAcao].dataAtualizacao)) {
-            groupedData[key][item.nomeAcao] = { preco: item.preco, dataAtualizacao: item.dataAtualizacao };
-        }
+        groupedData[key][item.nomeAcao] = item.preco; // adiciona todas as ações
     });
 
     const sortedKeys = Object.keys(groupedData).sort((a, b) => new Date(a) - new Date(b));
 
-    const formattedData = sortedKeys.map(key => {
-        const entry = { week: key };
-        for (const acao in groupedData[key]) {
-            entry[acao] = groupedData[key][acao].preco;
-        }
-        return entry;
-    });
-
-    return formattedData;
+    return sortedKeys.map(key => ({
+        week: key,
+        ...groupedData[key] // todas as ações desse dia/mês
+    }));
 }
+
 
 
 export default function HistoricoRendaVariavel() {
