@@ -10,36 +10,43 @@ import Link from "next/link";
 
 
 function transformData(data) {
+    if (!data || data.length === 0) return [];
+
+    // Encontra a data mínima real do backend
+    const minDate = new Date(Math.min(...data.map(item => new Date(item.dataAtualizacao).getTime())));
+
     const groupedData = {};
 
     data.forEach(item => {
-        // Pega apenas ano e mês reais do backend
         const date = new Date(item.dataAtualizacao);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0"); // mês de 0-11 para 01-12
 
+        // Ignora qualquer registro anterior ao mínimo
+        if (date < minDate) return;
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // 01-12
         const key = `${year}-${month}`;
 
         if (!groupedData[key]) groupedData[key] = {};
 
-        // Só mantém o último valor do mês
-        if (!groupedData[key][item.nomeAcao] || new Date(item.dataAtualizacao) > new Date(groupedData[key][item.nomeAcao].dataAtualizacao)) {
+        // Mantém apenas o último valor do mês
+        if (!groupedData[key][item.nomeAcao] || date > new Date(groupedData[key][item.nomeAcao].dataAtualizacao)) {
             groupedData[key][item.nomeAcao] = { preco: item.preco, dataAtualizacao: item.dataAtualizacao };
         }
     });
 
-    const sortedKeys = Object.keys(groupedData).sort((a, b) => new Date(a) - new Date(b));
+    const sortedKeys = Object.keys(groupedData)
+        .sort((a, b) => new Date(a + "-01") - new Date(b + "-01")); // garante ordenação correta
 
-    const formattedData = sortedKeys.map(key => {
+    return sortedKeys.map(key => {
         const entry = { week: key };
         for (const acao in groupedData[key]) {
             entry[acao] = groupedData[key][acao].preco;
         }
         return entry;
     });
-
-    return formattedData;
 }
+
 
 
 
