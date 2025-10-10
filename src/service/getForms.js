@@ -38,4 +38,19 @@ export async function getByProtocol(protocolo) {
     }
 }
 
+export async function getHistoricoRendaVariavel() {
+    try {
+        console.log("Buscando histórico de renda variável...");
+        const response = await axios.get(`${API_URL}/acoes/historico`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar histórico de renda variável:", error);
+        return null;
+    }
+}
 

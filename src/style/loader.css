@@ -1,0 +1,29 @@
+/* Wrapper para centralizar na tela */
+.loader-wrapper {
+  position: fixed;       /* Fica em relação à tela inteira */
+  top: 0;
+  left: 0;
+  width: 100vw;          /* Ocupa toda a largura da tela */
+  height: 100vh;         /* Ocupa toda a altura da tela */
+  display: flex;         /* Flex para centralizar */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;     /* Centraliza verticalmente */
+  background-color: rgba(255, 255, 255, 0.7); /* opcional: um fundo semi-transparente */
+  z-index: 9999;         /* garante que fique acima de tudo */
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #0d3b68;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

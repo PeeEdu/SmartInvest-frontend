@@ -45,10 +45,13 @@ export default function SimulationForm({ items }) {
         }
         console.log("Dados do formulário:", formData);
         
-        const response = await postForm(formData);
-        console.log("Resposta do servidor:", response);
+        if (selected === "RENDA_FIXA") {
+            const response = await postForm(formData);
+            console.log("Resposta do servidor:", response);
+        }
+        
 
-        redirectTo(`/simulacao/${response.data.protocolo}`);
+        selected === "RENDA_FIXA" ? redirectTo(`/simulacao/${response.data.protocolo}`) : redirectTo(`/historico-renda-variavel`);
     };
 
     const handleValorChange = (e) => {
