@@ -2,7 +2,7 @@
 
 import Button from "@/presentation/components/global/Button";
 import ListUl from "@/presentation/components/global/List-ul";
-import Modal from "@/presentation/components/global/Modal";
+import Modal from "@/presentation/components/perfil-investidor/Modal";
 import WhiteSquare from "@/presentation/components/global/WhiteSquare";
 import InformativeBanner from "@/presentation/components/Home/InformativeBanner";
 import { useInvestor } from "@/presentation/hooks/context/investorContext";
