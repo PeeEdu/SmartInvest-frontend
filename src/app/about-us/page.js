@@ -36,24 +36,24 @@ export default function AboutUs() {
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-4xl font-bold text-foreground mb-8">Sobre Nós</h1>
                 <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-                    <p>
+                    <p className="text-[#607a9f]">
                         Prazer, somos Pedro, Thiago, Rauni, Matheus e Lucas! 👋
                     </p>
 
-                    <p>
+                    <p className="text-[#607a9f]">
                         Nós cinco fazemos parte do Programa Devs do Agi e estamos unidos por um sonho em comum:
                         crescer como profissionais de tecnologia e conquistar nosso lugar nessa empresa incrível
                         que é o Agibank.
                     </p>
 
-                    <p>
+                    <p className="text-[#607a9f]">
                         No momento, estamos mergulhando de cabeça no mundo do Backend com Java, explorando
                         arquitetura de software, APIs REST, integração com bancos de dados e tudo mais que aparece
                         pela frente. Somos movidos por inovação, aprendizado constante e pela vontade de transformar
                         ideias em soluções que realmente funcionam.
                     </p>
 
-                    <p>
+                    <p className="text-[#607a9f]">
                         Nosso grande objetivo? Entrar de vez no time do Agi, contribuir em projetos que fazem
                         diferença de verdade e seguir evoluindo como desenvolvedores, sempre com espírito de
                         equipe, muita curiosidade e aquela energia de quem quer deixar sua marca!
