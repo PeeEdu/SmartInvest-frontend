@@ -14,7 +14,7 @@ export default function Header() {
                 <h1 className="text-xl font-bold pl-20">Smart Invest</h1>
                 <nav className="flex gap-3">
                     <HeaderLink onClick={() => redirectTo("/")} icon={<House className="h-6 w-6" />} text="Home" />
-                    <HeaderLink onClick={() => redirectTo("/sobre-nos")} icon={<Users />} text="Sobre Nós" />
+                    <HeaderLink onClick={() => redirectTo("/about-us")} icon={<Users />} text="Sobre Nós" />
 
                     {/* Em caso de juridico, estarei usando o link abaixo apeanas para estudo. */}
                     <HeaderLink onClick={() => redirectTo("/")} icon={<Building2 />} text="Seja um Correntista Agi" correntista />
