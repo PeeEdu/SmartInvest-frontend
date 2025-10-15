@@ -17,7 +17,7 @@ export default function Header() {
                     <HeaderLink onClick={() => redirectTo("/about-us")} icon={<Users />} text="Sobre Nós" />
 
                     {/* Em caso de juridico, estarei usando o link abaixo apeanas para estudo. */}
-                    <HeaderLink onClick={() => redirectTo("/")} icon={<Building2 />} text="Seja um Correntista Agi" correntista />
+                    <HeaderLink onClick={() => redirectTo("https://agibank.com.br/appdoagi")} icon={<Building2 />} text="Seja um Correntista Agi" correntista />
                 </nav>
             </div>
         </header>

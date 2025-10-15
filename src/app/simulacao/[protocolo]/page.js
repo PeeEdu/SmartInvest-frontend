@@ -11,6 +11,7 @@ import { Calendar, DollarSign, Target } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import "@/style/loader.css";
+import ProtocoloBox from "@/presentation/components/protocol/protocolbox";
 
 export default function ShowSimulation() {
     const [simulation, setSimulation] = useState(null);
@@ -64,11 +65,15 @@ export default function ShowSimulation() {
     return (
         <div>
             <div className="max-w-[1152px] mx-auto">
+
+
+                <ProtocoloBox protocolo={params.protocolo} />
+
                 <h1 className="font-bold text-center text-4xl mb-4">Resultado da Simulação</h1>
                 <h2 className="text-center text-[18px] text-[#5F799F] max-w-2xl mx-auto mb-8">
                     Investidor {simulation.tipoUsuario
                         ? simulation.tipoUsuario.charAt(0).toUpperCase() +
-                          simulation.tipoUsuario.slice(1).toLowerCase()
+                        simulation.tipoUsuario.slice(1).toLowerCase()
                         : ""}
                 </h2>
                 {product && (
@@ -77,7 +82,7 @@ export default function ShowSimulation() {
                             <p className="font-semibold text-[#0d3b68ea] text-xl mb-4">
                                 Investimento Selecionado: {product.nome
                                     ? product.nome.charAt(0).toUpperCase() +
-                                      product.nome.slice(1).toLowerCase()
+                                    product.nome.slice(1).toLowerCase()
                                     : ""}
                             </p>
                             <div className="flex flex-row gap-4 justify-between">
@@ -109,7 +114,7 @@ export default function ShowSimulation() {
                             <p className="font-semibold text-[#0d3b68ea] text-xl mb-4">
                                 Projeção de Retorno - {product.nome
                                     ? product.nome.charAt(0).toUpperCase() +
-                                      product.nome.slice(1).toLowerCase()
+                                    product.nome.slice(1).toLowerCase()
                                     : ""}
                             </p>
 
@@ -123,7 +128,7 @@ export default function ShowSimulation() {
                             <p className="font-semibold text-[#0d3b68ea] text-xl mb-4">
                                 Comparação com Outros Produtos de Renda Fixa
                             </p>
-                            <Graphics initialAmount={simulation.valorInicial} items={rendasFixas} month={simulation.prazoMeses}/>
+                            <Graphics initialAmount={simulation.valorInicial} items={rendasFixas} month={simulation.prazoMeses} />
                         </WhiteSquare>
                     </>
                 )}

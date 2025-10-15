@@ -75,7 +75,7 @@ export default function HistoricoRendaVariavel() {
                             Conheça as opções de renda variável disponíveis para visualização. Estas modalidades de investimento oferecem oportunidades de rentabilidade diversificadas, com diferentes níveis de risco e volatilidade.
                         </p>
                         <p className=" text-[14px] text-[#5F799F]">
-                            Para ter acesso integral a estas e outras opções de investimento, além de contar com assessoria especializada, torne-se correntista do Agi e potencialize seus investimentos. <Link href="/"><span className="underline text-[#0d3b68]">Clique aqui para saber mais</span></Link>
+                            Para ter acesso integral a estas e outras opções de investimento, além de contar com assessoria especializada, torne-se correntista do Agi e potencialize seus investimentos. <Link href="https://agibank.com.br/appdoagi"><span className="underline text-[#0d3b68]">Clique aqui para saber mais</span></Link>
                         </p>
                     </WhiteSquare>
                     <WhiteSquare className={"pb-10"}>
